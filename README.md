@@ -1,5 +1,6 @@
-# progmatoz-template-oauth
-This is a template project for Java microservices. 
+# progmatoz-hmt
+Welcome to HMT - Help My Ticket
+This is a error handler api for help in troubleshooting. 
 <br/>
 Among the technologies used, the main ones are:
 <br/>
@@ -11,10 +12,12 @@ Among the technologies used, the main ones are:
 - Spotbugs
 - oAuth
 - JWT
+- Elasticsearch
+- Kibana
 
 Main Features:
 <br/>
-- CRUD mock template requests
+- Kiaban dashboards
 - Log all requests and responses data
 - Log in JSON format
 - Hateoas
@@ -22,7 +25,3 @@ Main Features:
 - Security access with oAuth2
 - Native support to Keycloak
 - Simplified access control to apis using the @AllowedRoles annotation
-
-## Tips
-- check oAuth infra for easy way use
-- https://github.com/metalgsm/progmatoz-template-oauth-infra/
