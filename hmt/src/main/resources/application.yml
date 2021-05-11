@@ -1,0 +1,23 @@
+server:
+  port: 8070
+  servlet:
+    context-path: /hmt
+spring:
+  security:
+    ignored: "/actuator/**"
+  application:
+    name: hmt
+  jmx:
+    enabled: false
+keycloak:
+  url: http://172.26.155.73:30922
+  realm: test
+  jwk: ${keycloak.url}/auth/realms/${keycloak.realm}/protocol/openid-connect/certs
+prog.matoz.config:
+  time-zone: America/Sao_Paulo
+  elastic-uri: ${elastic_uri}
+  elastic-index-error: '{"settings":{"number_of_shards":1},"mappings":{"properties":{"client":{"type":"text","fields":{"raw":{"type":"keyword"}}},"product":{"type":"text","fields":{"raw":{"type":"keyword"}}},"service":{"type":"text","fields":{"raw":{"type":"keyword"}}},"transaction":{"type":"text","fields":{"raw":{"type":"keyword"}}},"date":{"type":"date","fields":{"raw":{"type":"keyword"}}},"UUID":{"type":"text"},"key":{"type":"text"},"requestHeaders":{"type":"text"},"requestUri":{"type":"text"},"requestBody":{"type":"text"},"responseHeaders":{"type":"text"},"responseUri":{"type":"text"},"responseStatus":{"type":"text"},"responseBody":{"type":"text"}}}}'
+  elastic-index-warning:
+loggin:
+  level:
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
