@@ -22,5 +22,5 @@ public class ErrorVO {
 	private Integer responseStatus;
 	private String responseBody;
 	private String date;
-	public static final String INDEX = "hmt-error-handler";
+	public static final String INDEX = "hmt-error-handler-";
 }

@@ -15,4 +15,7 @@ public interface ElasticClient {
 	
 	@RequestLine("POST /{indexName}")
 	void handlerError(@Param("indexName") String indexName, ErrorVO body);
+	
+	@RequestLine("DELETE /{indexName}")
+	void delete(@Param("indexName") String indexName);
 }

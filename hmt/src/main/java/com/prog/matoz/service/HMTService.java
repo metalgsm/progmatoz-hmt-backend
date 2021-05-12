@@ -26,38 +26,44 @@ public class HMTService {
 
 	private HMTConfig config;
 
-	public void createIndexError() {
-		ElasticClient client = Feign.builder()
-				.client(new OkHttpClient())
-				.encoder(new GsonEncoder())
-				.decoder(new GsonDecoder())
-				.logger(new Slf4jLogger(ElasticClient.class))
-				.logLevel(Logger.Level.FULL)
-				.target(ElasticClient.class, config.getElasticUri());
+	public void handlerError(ErrorVO vo) {
+		var separator = "-";
+		var path = new StringBuilder();
+
+		path.append(vo.getClient());
+		path.append(separator);
+		path.append(vo.getProduct());
+		path.append(separator);
+		path.append(vo.getService());
+
+		createIndexError(path.toString());
+
+		ElasticClient client = elasticBuilder();
+
+		client.handlerError(ErrorVO.INDEX + path + "/_doc", vo);
+	}
+	
+	public void deleteIndex(String index) {
+		ElasticClient client = elasticBuilder();
 		
-		Elastic elastic = new Gson().fromJson(config.getElasticIndexError(), Elastic.class) ;
-		
+		client.delete(index);
+	}
+
+	private void createIndexError(String path) {
+		ElasticClient client = elasticBuilder();
+		Elastic elastic = new Gson().fromJson(config.getElasticIndexError(), Elastic.class);
 		try {
-			client.create(ErrorVO.INDEX, elastic);
-		}catch (FeignException e) {
-			if(400 == e.status()) {
-				throw new ObjectErrorException(409, null, "Index Already exist");
+			client.create(ErrorVO.INDEX + path, elastic);
+		} catch (FeignException e) {
+			if (400 != e.status()) {
+				throw new ObjectErrorException(500, e);
 			}
-			
-			throw new ObjectErrorException(500, e);
 		}
 	}
-	
-	public void handlerError(ErrorVO vo) {
-		ElasticClient client = Feign.builder()
-				.client(new OkHttpClient())
-				.encoder(new GsonEncoder())
-				.decoder(new GsonDecoder())
-				.logger(new Slf4jLogger(ElasticClient.class))
-				.logLevel(Logger.Level.FULL)
+
+	private ElasticClient elasticBuilder() {
+		return Feign.builder().client(new OkHttpClient()).encoder(new GsonEncoder()).decoder(new GsonDecoder())
+				.logger(new Slf4jLogger(ElasticClient.class)).logLevel(Logger.Level.FULL)
 				.target(ElasticClient.class, config.getElasticUri());
-		
-		client.handlerError(ErrorVO.INDEX + "/_doc", vo);
 	}
-	
 }
