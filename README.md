@@ -17,7 +17,7 @@ Among the technologies used, the main ones are:
 
 Main Features:
 <br/>
-- Kiaban dashboards
+- Kibana dashboards
 - Log all requests and responses data
 - Log in JSON format
 - Hateoas
